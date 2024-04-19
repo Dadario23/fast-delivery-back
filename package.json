@@ -21,7 +21,8 @@
     "precommit": "lint-staged",
     "start": "nodemon server.ts",
     "test": "jest --forceExit",
-    "test-db-connection": "ts-node ./src/config/index.ts"
+    "test-db-connection": "ts-node ./src/config/index.ts",
+    "postbuild": "npm run seed"
   },
   "repository": {
     "type": "git",
