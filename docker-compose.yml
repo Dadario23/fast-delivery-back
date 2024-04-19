@@ -1,0 +1,94 @@
+# version: "3"
+# services:
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3001:3001"
+#     volumes:
+#       - ./fast-Delivery-Back:/app
+
+# version: "3"
+# services:
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3001:3001"
+#     environment:
+#       NODE_ENV: development
+#       SERVER_PORT: 3001
+#       SERVER_HOST: http://localhost
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: fdeliverydb
+#       JWT_SECRET: MILANESA
+#     volumes:
+#       - ./fast-Delivery-Back:/app
+#     depends_on:
+#       - db
+#   db:
+#     image: postgres
+#     environment:
+#       POSTGRES_DB: fdeliverydb
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+
+# version: "3"
+# services:
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3001:3001"
+#     volumes:
+#       - ./fast-Delivery-Back:/app
+#     networks:
+#       - fast-delivery
+
+#   postgres:
+#     image: postgres
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: fdeliverydb
+#     ports:
+#       - "5432:5432"
+#     networks:
+#       - fast-delivery
+
+# networks:
+#   fast-delivery:
+#     driver: bridge
+
+version: "3"
+services:
+  backend:
+    build: .
+    ports:
+      - "3001:3001"
+    volumes:
+      # - ./fast-Delivery-Back:/app/fast-delivery-back
+      - ./:/app
+    networks:
+      - fast-delivery
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fdeliverydb
+    ports:
+      - "5433:5432"
+    networks:
+      - fast-delivery
+
+networks:
+  fast-delivery:
+    driver: bridge
