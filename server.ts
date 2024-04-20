@@ -43,21 +43,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send(err.message);
 });
 
-// Configuración CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://fast-delivery-front-opal.vercel.app/"
-  );
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
+  res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
