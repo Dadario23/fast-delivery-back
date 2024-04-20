@@ -178,7 +178,7 @@ router.post("/logout", auth, userController.logout); //OK
  *         description: Error interno del servidor
  */
 router.post("/affidavit", userController.affidavit);
-router.get("/me", auth, userController.me); //OK
+router.get("/me", /* auth, */ userController.me); //OK
 /**
  * @swagger
  * /api/users/me:
