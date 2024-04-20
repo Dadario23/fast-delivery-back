@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 //import db from "../fast-Delivery-Back/src/config/index.ts";
-import db from "./src/config/index"
+import db from "./src/config/index";
 import { config } from "dotenv";
 const { Package, User } = require("./src/models/index");
 const cookieParser = require("cookie-parser");
@@ -43,12 +43,21 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send(err.message);
 });
 
+// Configuración CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://fast-delivery-front-p5.vercel.app"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
