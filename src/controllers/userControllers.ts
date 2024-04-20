@@ -381,6 +381,7 @@ const userController = {
   updateUser: async (req: Request, res: Response) => {
     // const userId: string = req.params.id; //PARA CUANDO ESTÉ EL ESTADO REDUX.
     const token = req.cookies.token;
+    console.log("TOKEN", token);
     if (!token) {
       return res
         .status(401)
