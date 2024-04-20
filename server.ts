@@ -47,7 +47,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://fast-delivery-front-p5.vercel.app"
+    "https://fast-delivery-front-opal.vercel.app/"
   );
   res.header(
     "Access-Control-Allow-Methods",
