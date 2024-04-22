@@ -84,7 +84,10 @@ const userController = {
         id: existingUserToJson.id,
         isAdmin: existingUserToJson.isAdmin,
       });
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true, // Asegura que la cookie solo se envíe a través de HTTPS
+      });
       return res.status(200).json({
         message: "Usuario logeado con éxito.",
         isAdmin: existingUserToJson.isAdmin,
