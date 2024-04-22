@@ -39,6 +39,12 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.use((req, res, next) => {
+  res.cookie("sameSite", "none", { secure: true }); // Asegura que la cookie se envíe solo a través de HTTPS
+  next();
+});
+
 app.use("/api", routes);
 app.use(
   "/v1/api/doc",
