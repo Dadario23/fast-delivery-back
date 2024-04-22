@@ -21,8 +21,8 @@ const app: Application = express();
 const routes = require("./src/routes/index").default;
 const morgan = require("morgan");
 const cors = require("cors");
-const corsOrigin = process.env.CORS_ORIGIN || "http://localhost";
-const serverPort = process.env.SERVER_PORT || 3001;
+const corsOrigin = process.env.CORS_ORIGIN;
+const serverPort = process.env.SERVER_PORT;
 const server = app.listen(serverPort, () =>
   console.log(`Servidor levantado en el puerto ${serverPort}`)
 );
@@ -31,7 +31,14 @@ config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors({ origin: corsOrigin, credentials: true }));
+app.use(
+  cors({
+    origin: corsOrigin,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use("/api", routes);
 app.use(
   "/v1/api/doc",
