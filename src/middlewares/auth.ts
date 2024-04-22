@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Payload} from "../types/userTypes";
+import { Payload } from "../types/userTypes";
 import jwt from "jsonwebtoken";
 
 export interface CustomRequest extends Request {
@@ -7,33 +7,37 @@ export interface CustomRequest extends Request {
 }
 
 const auth = async (req: CustomRequest, res: Response, next: NextFunction) => {
-  const isTestEnvironment = typeof jest !== 'undefined';
+  const isTestEnvironment = typeof jest !== "undefined";
   if (isTestEnvironment) {
     return next();
   }
-  const token = req.cookies.token; 
+  const token = req.cookies.token;
 
   if (!token) {
+    console.log("No se encontró ningún token en la cookie");
     return res.status(401).json({ message: "No token, authorization denied" });
   }
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { user: Payload };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as {
+      user: Payload;
+    };
+    console.log("Token decodificado:", decoded);
     req.user = decoded.user;
     next();
   } catch (error) {
+    console.error("Error al verificar el token:", error);
     res.status(400).json({ message: "Token is not valid" });
   }
 };
 
 export default auth;
 
-
 // import { Request, Response, NextFunction } from "express";
 // import {JsonWebTokenError, JwtPayload} from "jsonwebtoken";
 // import { validateToken } from "../config/token";
 
 // export interface CustomRequest extends Request {
-//   user?: { id: string; isAdmin: boolean }; 
+//   user?: { id: string; isAdmin: boolean };
 // }
 
 // const auth = async (req: CustomRequest, res: Response<string | JwtPayload>, next: NextFunction) => {
@@ -49,7 +53,7 @@ export default auth;
 //     if (!payload || typeof payload === 'string')
 //       return res.status(401).send('Invalid authorization token');
 //       req.user = { id: payload.user.id, isAdmin: payload.user.isAdmin };
-  
+
 //     next();
 //   } catch (error) {
 //     if (error instanceof JsonWebTokenError) {
