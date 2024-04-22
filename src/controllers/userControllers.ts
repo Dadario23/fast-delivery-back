@@ -87,6 +87,7 @@ const userController = {
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // Asegura que la cookie solo se envíe a través de HTTPS
+        sameSite: "none", // Permite que la cookie se envíe en solicitudes de origen cruzado
       });
       return res.status(200).json({
         message: "Usuario logeado con éxito.",
