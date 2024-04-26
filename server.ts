@@ -1,10 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from "express";
-//import db from "../fast-Delivery-Back/src/config/index.ts";
-import db from "./src/config/index";
 import { config } from "dotenv";
+import db from "./src/config/index";
 const { Package, User } = require("./src/models/index");
 const cookieParser = require("cookie-parser");
-//swagger
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerSpec = {
@@ -21,12 +19,12 @@ const app: Application = express();
 const routes = require("./src/routes/index").default;
 const morgan = require("morgan");
 const cors = require("cors");
-const corsOrigin = process.env.CORS_ORIGIN;
-const serverPort = process.env.SERVER_PORT;
-const server = app.listen(serverPort, () =>
-  console.log(`Servidor levantado en el puerto ${serverPort}`)
-);
+
 config();
+
+// Configuración de CORS
+const corsOrigin = process.env.CORS_ORIGIN;
+const serverPort = process.env.SERVER_PORT || 3001;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -39,12 +37,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-app.use((req, res, next) => {
-  res.cookie("sameSite", "none", { secure: true }); // Asegura que la cookie se envíe solo a través de HTTPS
-  next();
-});
-
 app.use("/api", routes);
 app.use(
   "/v1/api/doc",
@@ -56,19 +48,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send(err.message);
 });
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  next();
-});
-
 db.sync({ force: false })
   .then(() => {
-    server;
+    app.listen(serverPort, () =>
+      console.log(`Servidor levantado en el puerto ${serverPort}`)
+    );
   })
   .catch((err: Error) => console.error(err));
 
-export { app, server };
+export { app };
