@@ -165,8 +165,8 @@ const userController = {
       const expirationDate = new Date();
       expirationDate.setTime(Date.now() + 3600000);
       user.resetPasswordExpires = expirationDate;
-      console.log("PRIMERO ACA", user.resetPasswordToken);
-      console.log("SEGUNDO ACA", user.resetPasswordExpires);
+      //console.log("PRIMERO ACA", user.resetPasswordToken);
+      //console.log("SEGUNDO ACA", user.resetPasswordExpires);
       await user.save();
       const mailOptions = emailTemplates.forgotPassword(userToJson, resetToken);
       await transporter.sendMail(mailOptions);
